@@ -1,0 +1,111 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  /* die section .page centered unseren processing-container */
+  height: 100vh;
+  background-color: mistyrose;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.processing-container {
+  /* innerhalb des processing containers liegen die processing-items, welche wir innerhalb des containers mittig ausrichten */
+  border: 1px solid red;
+  /* der container bekommt position relative, weil wir die einzelnen Bilder (processing-items) aus dem regulären HTML Fluss mit position absolute herausnehmen wollen */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+}
+
+.processing-item {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  animation-name: appear;
+  animation-duration: 1s;
+  border: 1px solid black;
+}
+
+/* Größe der Bilder anpassen */
+.processing-item img {
+  width: 6rem;
+}
+
+/* Animation for images to appear / disappear */
+@keyframes appear {
+  0% {
+    /* die Animation startet mit einer Verschiebung des processing-items auf der x-achse mit 300%  */
+    transform: translateX(300%);
+  }
+
+  20% {
+    transform: scale(1.2) translateX(0) translateY(-5%);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.2) translateX(0) translateY(5%);
+    opacity: 1;
+  }
+
+  80% {
+    transform: scale(1) translateX(0) translateY(0%);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.8) translateX(-300%);
+    opacity: 0;
+  }
+}
+
+/* eine extra animation für item 3, da dieses sich nicht auf der x-achse bewegen muss, sondern auf der y-achse. */
+@keyframes jumping-y-axis {
+  0% {
+    /* processing-item Nummer 3 verschiebt sich auf der y-achse. Es startet -300% von oben und ist dort erstmal unsichtbar */
+    transform: translateY(-300%);
+    opacity: 0;
+  }
+
+  20% {
+    /* nachdem die gesamte Animation bis zu 20% durchgelaufen ist ist die Verschiebung auf der y-achse bei 15% oben und das item wird sichtbar mit opacity 1*/
+    transform: translateY(15%);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(-15%);
+    opacity: 1;
+  }
+
+  80% {
+    transform: translateY(5%);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+.processing-item:nth-child(2) {
+  /* item 2 läuft 3x durch und startet die gleiche animation "appear" mit einer Gesamtlänge von 1s, wenn item 1 fertig ist und daher mit einer Sekunde Verspätung */
+  animation-iteration-count: 3;
+  animation-delay: 1s;
+}
+
+/* item 3 bekommt eine extra animation (keyframe) da es auf der y-achse bewegt werden muss */
+.processing-item:nth-child(3) {
+  animation-name: jumping-y-axis;
+  animation-delay: 4s;
+}
